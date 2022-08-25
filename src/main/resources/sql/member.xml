@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 경로 틀리면 시작시 무조건 에러 -->
+<mapper namespace="com.project.bootboard.mapper.MemberMapper">
+
+
+    <select id="idCheck" resultType="string">
+        SELECT member_id
+        FROM member
+        WHERE member_id = #{id}
+    </select>
+    <select id="getMember" resultType="com.project.bootboard.dto.MemberDto">
+        SELECT member_no memberNo,
+               member_id memberId,
+               member_pw memberPw,
+               delete_yn deleteYn
+        FROM member
+        WHERE member_id = #{id}
+    </select>
+    <select id="getAuth" resultType="java.lang.String">
+        SELECT member_auth
+        FROM auth
+        WHERE member_id = #{id}
+    </select>
+
+    <!-- 회원가입 -->
+    <insert id="signMember" parameterType="com.project.bootboard.dto.MemberDto">
+        INSERT INTO member
+            (member_id, member_pw)
+        VALUES (#{dto.memberId}, #{dto.memberPw});
+    </insert>
+    <insert id="authInsert" parameterType="com.project.bootboard.dto.MemberDto">
+        INSERT INTO auth
+            (member_id, member_auth)
+        VALUES (#{dto.memberId}, 'USER');
+    </insert>
+</mapper>

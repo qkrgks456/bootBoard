@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 경로 틀리면 시작시 무조건 에러 -->
+
+<mapper namespace="com.project.bootboard.mapper.BoardMapper">
+    <insert id="boardInsert">
+        INSERT INTO board (board_title, board_content, board_date)
+        VALUES (#{boardDto.boardTitle}, #{boardDto.boardContent}, now())
+    </insert>
+
+    <update id="showUp">
+        UPDATE board
+        SET board_read = board_read + 1
+        WHERE board_no = #{boardNo}
+    </update>
+
+    <update id="boardUpdate">
+        UPDATE board
+        SET board_title    = ?,
+            board_contents = ?
+        WHERE board_no = ?
+    </update>
+
+    <!-- id는 메서드명,resultType은 반환타입 -->
+    <select id="getBoardList" resultType="com.project.bootboard.dto.BoardDto">
+        SELECT board_no      boardNo
+             , board_title   boardTitle
+             , board_content boardContent
+             , board_date    boardDate
+        FROM board LIMIT #{beginRow},#{rowPerPage}
+    </select>
+
+
+    <select id="getBoardTotal" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM board
+    </select>
+
+    <select id="boardDetail" resultType="com.project.bootboard.dto.BoardDto">
+        SELECT board_no      boardNo
+             , board_title   boardTitle
+             , board_content boardContent
+             , board_date    boardDate
+        FROM board
+        WHERE board_no = #{boardNo}
+    </select>
+
+
+</mapper>
