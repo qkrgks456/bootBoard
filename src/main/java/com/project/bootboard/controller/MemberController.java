@@ -24,11 +24,6 @@ public class MemberController {
         return "/member/login-form";
     }
 
-    @PostMapping("/login/suc")
-    public String login(MemberDto memberDto) {
-        return "/member/login-form";
-    }
-
     @GetMapping("/sign/sign-form")
     public String signForm() {
         return "/member/sign-form";
