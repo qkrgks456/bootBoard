@@ -5,6 +5,7 @@ import com.project.bootboard.dto.MemberDto;
 import com.project.bootboard.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @Controller
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor // 사실 생성자로 받아야 한다 대신 해준다
 @RequestMapping("/board")
 public class BoardController {
@@ -45,7 +46,6 @@ public class BoardController {
     // 게시판 상세
     @GetMapping("/detail")
     public String boardDetail(@RequestParam(value = "boardNo") int boardNo, Model model) {
-        log.info(boardNo);
         BoardDto boardDto = boardService.boardDetail(boardNo);
         model.addAttribute("board", boardDto);
         return "/board/board-detail";

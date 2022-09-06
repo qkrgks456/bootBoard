@@ -21,4 +21,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/board/list", "/test"); // 제외할 경로 적어라
     }
 
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/img/**")
+                .addResourceLocations("file:///Users/hansol/Develop/upload/");
+    }
+
 }
