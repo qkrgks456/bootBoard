@@ -3,7 +3,8 @@ package com.project.bootboard.service;
 import com.project.bootboard.dto.MemberDto;
 import com.project.bootboard.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,18 +16,17 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class MemberService implements UserDetailsService {
-    private final MemberMapper memberMapper;
-    private final PasswordEncoder bCryptPasswordEncoder;
+@Slf4j
+public class AdminService implements UserDetailsService {
 
-    public String idCheck(String id) {
-        return memberMapper.idCheck(id);
-    }
+    private final MemberMapper memberMapper;
+    private final PasswordEncoder passwordEncoder;
+
 
     @Transactional
-    public int signMember(MemberDto memberDto) {
+    public int signAdmin(MemberDto memberDto) {
         int result = 0;
-        String encodePw = bCryptPasswordEncoder.encode(memberDto.getMemberPw());
+        String encodePw = passwordEncoder.encode(memberDto.getMemberPw());
         memberDto.setMemberPw(encodePw);
         // 가입하기
         result += memberMapper.signMember(memberDto);
@@ -36,7 +36,7 @@ public class MemberService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String memberId) throws AuthenticationException {
         //여기서 받은 유저 패스워드와 비교하여 로그인 인증
         MemberDto memberDto = memberMapper.getMember(memberId);
         if (memberDto == null) {
@@ -44,7 +44,11 @@ public class MemberService implements UserDetailsService {
         }
         // 권한 가져와서 넣기
         List<String> auth = memberMapper.getAuth(memberId);
+        if (!auth.contains("ADMIN")) {
+            throw new UsernameNotFoundException("User not authorized.");
+        }
         memberDto.setMemberAuth(auth);
+        log.info("memberDto = {}", memberDto);
         return memberDto;
     }
 }

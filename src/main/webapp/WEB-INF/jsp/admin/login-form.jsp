@@ -19,10 +19,10 @@
 <body>
 
 <div class="d-flex justify-content-center container" style="height: 450px">
-    <form method="post" action="/member/login"
+    <form method="post" action="/admin/login"
           class="w-75 border p-3 bg-white shadow rounded align-self-center">
         <div class="d-inline-flex">
-            <h1 class="ms-2 fw-bold">로그인</h1>
+            <h1 class="ms-2 fw-bold">관리자 로그인</h1>
         </div>
         <div class="mb-3">
             <label for="username" class="form-label">아이디</label>
@@ -42,9 +42,8 @@
             </div>
         </c:if>
         <div class="text-center mt-3">
-            <button type="submit" id="boardBtn" class="btn btn-primary rounded-0 me-1">고객 로그인</button>
+            <button type="submit" id="boardBtn" class="btn btn-primary rounded-0 me-1">관리자 로그인</button>
             <a href="/sign/sign-form" class="btn btn-primary rounded-0">회원가입</a>
-            <a href="/admin/login-form" type="submit" class="btn btn-primary rounded-0 me-1">관리자 로그인</a>
         </div>
     </form>
 </div>

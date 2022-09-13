@@ -29,9 +29,17 @@
             (member_id, member_pw)
         VALUES (#{dto.memberId}, #{dto.memberPw});
     </insert>
+
     <insert id="authInsert" parameterType="com.project.bootboard.dto.MemberDto">
         INSERT INTO auth
             (member_id, member_auth)
         VALUES (#{dto.memberId}, 'USER');
+    </insert>
+
+    <insert id="adminInsert" parameterType="com.project.bootboard.dto.MemberDto">
+        INSERT INTO auth
+            (member_id, member_auth)
+        VALUES (#{dto.memberId}, 'USER'),
+               (#{dto.memberId}, 'ADMIN');
     </insert>
 </mapper>

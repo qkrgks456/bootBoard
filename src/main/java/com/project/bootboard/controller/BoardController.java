@@ -36,9 +36,8 @@ public class BoardController {
 
     @PostMapping("/insert")// 통으로 받기
     public String boardInsert(BoardDto boardDto) {
-        log.info("%s", boardDto);
-        boardService.boardInsert(boardDto);
 
+        boardService.boardInsert(boardDto);
         //리스트로 뿌려줘야 하니까
         return "redirect:/board/list?check=insert";
     }

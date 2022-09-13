@@ -16,7 +16,7 @@
 </head>
 <body>
 <div class="container px-2 px-lg-1 mt-5">
-    <a href="/logout" class="btn btn-primary">로그아웃</a>
+    <a href="/member/logout" class="btn btn-primary">로그아웃</a>
     <h1>게시판 목록</h1>
     <div>
         <table class="table table-hover table-striped">
