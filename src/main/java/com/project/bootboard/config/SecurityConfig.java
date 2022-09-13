@@ -8,6 +8,8 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.RequestCacheConfigurer;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,19 +24,6 @@ public class SecurityConfig {
 
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
-  /*  @Bean
-    public SecurityFilterChain resources(HttpSecurity http) throws Exception {
-        // 정적 리소스 ex) js,css,img 등 시큐리티 거치지 않도록
-        return http.requestMatchers(matchers -> matchers
-                        .antMatchers("/resources/**")
-                        .antMatchers("/resource/**"))
-                .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().permitAll())
-                .requestCache(RequestCacheConfigurer::disable)
-                .securityContext(AbstractHttpConfigurer::disable)
-                .sessionManagement(AbstractHttpConfigurer::disable)
-                .build();
-    }*/
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -43,10 +32,10 @@ public class SecurityConfig {
                 .authenticationProvider(authenticationProvider())
                 // 요청 url 권한관련
                 .authorizeRequests(auth -> auth
-                        .antMatchers("/resources/**").permitAll()
-                        .antMatchers("/resource/**").permitAll()
+                        .antMatchers("/resources/**").permitAll() // 리소스 허용
+                        .antMatchers("/resource/**").permitAll() // 리소스 허용
                         .antMatchers("/sign/**").permitAll() // 인증을 안했어도 접근가능
-                        .anyRequest().authenticated()) // 모든 요청 인증 되어야
+                        .anyRequest().authenticated()) // 그외 모든 요청 인증 되어야 한다
                 // 로그인 관련
                 .formLogin(form -> form
                         .loginPage("/") // 로그인페이지 주소
@@ -72,6 +61,7 @@ public class SecurityConfig {
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
+        // 인증할때 어떤 객체랑 패스워드 엔코더 쓸껀지
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(memberService);
         authProvider.setPasswordEncoder(passwordEncoder);

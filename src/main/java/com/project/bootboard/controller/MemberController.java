@@ -20,8 +20,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/")
-    public String loginForm(@ModelAttribute("check") String check,
-                            @ModelAttribute("error") String error,
+    public String loginForm(@ModelAttribute("error") String error,
                             Authentication authentication) {
         if (authentication != null) {
             for (GrantedAuthority authority : authentication.getAuthorities()) {

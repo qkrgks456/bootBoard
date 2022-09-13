@@ -17,7 +17,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-
+<img src="/resource/img/img1.jpeg"/>
 <div class="d-flex justify-content-center container" style="height: 450px">
     <form method="post" action="/member/login"
           class="w-75 border p-3 bg-white shadow rounded align-self-center">

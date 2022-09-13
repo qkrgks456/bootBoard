@@ -7,8 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -27,8 +25,7 @@ public class AdminSecurityConfig {
                 // 요청 url 권한관련
                 .antMatcher("/admin/**")
                 .authorizeRequests(auth -> auth
-                        .antMatchers("/admin/**")
-                        .hasAuthority("ADMIN")) // 관리자 권한이 있는경우에만
+                        .antMatchers("/admin/**").hasAuthority("ADMIN")) // 관리자 권한이 있는경우에만
                 // 로그인 관련
                 .formLogin(form -> form
                         .loginPage("/admin/login-form") // 로그인페이지 주소
@@ -45,7 +42,7 @@ public class AdminSecurityConfig {
                 .sessionManagement(session -> session
                         .maximumSessions(3) // 최대 허용 세션 수
                         .maxSessionsPreventsLogin(true) // 동시 로그인 차단기능 false가 차단
-                        .expiredUrl("/admin/login-form") // 세션 끝날경우 이동 할 페이지3
+                        .expiredUrl("/") // 세션 끝날경우 이동 할 페이지
                 )
                 // 권한이 없는데 접근할 경우 옵션
                 .exceptionHandling().accessDeniedPage("/admin/notAuth")
@@ -56,6 +53,7 @@ public class AdminSecurityConfig {
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider2() {
+        // 인증할때 어떤 객체랑 패스워드 엔코더 쓸껀지
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(adminService);
         authProvider.setPasswordEncoder(passwordEncoder);

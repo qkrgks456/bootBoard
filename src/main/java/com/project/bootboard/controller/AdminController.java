@@ -15,8 +15,7 @@ import java.util.List;
 public class AdminController {
 
     @GetMapping("/admin/login-form")
-    public String adminLoginForm(@ModelAttribute("check") String check,
-                                 @ModelAttribute("error") String error,
+    public String adminLoginForm(@ModelAttribute("error") String error,
                                  Authentication authentication) {
         if (authentication != null) {
             for (GrantedAuthority authority : authentication.getAuthorities()) {
