@@ -17,5 +17,4 @@ public interface MemberMapper {
 
     int authInsert(@Param("dto") MemberDto memberDto);
 
-    List<String> getAuth(@Param("id") String memberId);
 }

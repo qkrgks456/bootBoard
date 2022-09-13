@@ -1,25 +1,28 @@
 package com.project.bootboard.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
-@Getter
 @Setter
+@Getter
 @ToString
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MemberDto implements UserDetails {
-    private String memberNo;
+    private int memberNo;
     private String memberId;
     private String memberPw;
-    private List<String> memberAuth;
     private String deleteYn;
+    private List<String> memberAuth;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

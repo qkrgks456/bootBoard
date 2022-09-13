@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +27,9 @@ public class BoardController {
     @GetMapping("/list") // 파라미터 받는법
     public String boardList(@RequestParam(required = false, value = "current") String current,
                             @ModelAttribute("check") String check,
-                            Authentication authentication,
+                            @AuthenticationPrincipal DefaultOAuth2User defaultOAuth2User,
                             Model model) {
-        MemberDto memberDto = (MemberDto) authentication.getPrincipal();
+        System.out.println(defaultOAuth2User);
         Map<String, Object> map = boardService.getBoardList(current);
         map.forEach((key, value) -> model.addAttribute(key, value));
         // 파일명

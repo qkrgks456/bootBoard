@@ -42,12 +42,10 @@ public class AdminService implements UserDetailsService {
         if (memberDto == null) {
             throw new UsernameNotFoundException("User not authorized.");
         }
-        // 권한 가져와서 넣기
-        List<String> auth = memberMapper.getAuth(memberId);
-        if (!auth.contains("ADMIN")) {
+        // 권한 ADMIN 아니면 쳐버리기
+        if (!memberDto.getMemberAuth().contains("ADMIN")) {
             throw new UsernameNotFoundException("User not authorized.");
         }
-        memberDto.setMemberAuth(auth);
         log.info("memberDto = {}", memberDto);
         return memberDto;
     }
